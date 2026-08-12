@@ -10,6 +10,7 @@ from schemas.movies import MovieListResponseSchema, MovieDetailResponseSchema
 
 router = APIRouter(prefix="/movies", tags=["movies"])
 
+
 @router.get("/", response_model=MovieListResponseSchema)
 async def get_movies(
     page: int = Query(1, ge=1),
@@ -43,13 +44,13 @@ async def get_movies(
         )
 
     prev_page = (
-        f"/api/v1/theater/movies/?page={page - 1}&per_page={per_page}"
+        f"/theater/movies/?page={page - 1}&per_page={per_page}"
         if page > 1
         else None
     )
 
     next_page = (
-        f"/api/v1/theater/movies/?page={page + 1}&per_page={per_page}"
+        f"/theater/movies/?page={page + 1}&per_page={per_page}"
         if page < total_pages
         else None
     )
@@ -61,6 +62,7 @@ async def get_movies(
         total_pages=total_pages,
         total_items=total_items,
     )
+
 
 @router.get("/{movie_id}/", response_model=MovieDetailResponseSchema)
 async def get_movie(
@@ -80,4 +82,3 @@ async def get_movie(
         )
 
     return movie
-
